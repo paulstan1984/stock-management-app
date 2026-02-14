@@ -1,0 +1,18 @@
+- Make a plan for creating a nea stock management application
+- Here are the main app features
+  - The administrator is able to login and to manage the stock for each products
+  - A product has the following main fields: Code, Name, MeasureUnit, Stock
+  - A products can be assigned to a category
+  - The admin can manage categories.
+  - A category has Name.
+- The application has a URL which when is accessed from a phone allows the user to scan a product barcode (Code) or enter it manually, and then enter the quantity that is buyed. The stock will be decreased.
+- On this buy screen there should be an option to select the product and then enter the quantity if the product barcode cannot be scaned. 
+- Each product should have a button. 
+- The products are alphabetically ordered. 
+- There should be a search functionality, when the user types characters the products are automatically filtered. Ex: pa -> patrunjel, pastarnac
+- These route is accessible only for the logged admins.
+- the admin user and password are defined in a config file.
+- The application should be implemented in React & Node JS (Remix) 
+- I plan to deploy it on fly.io
+- The application language should be Romana.
+- Let me know If I miss something.

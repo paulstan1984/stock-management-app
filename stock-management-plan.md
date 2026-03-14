@@ -12,7 +12,7 @@
 - There should be a search functionality, when the user types characters the products are automatically filtered. Ex: pa -> patrunjel, pastarnac
 - These route is accessible only for the logged admins.
 - the admin user and password are defined in a config file.
-- The application should be implemented in React & Node JS (Remix) 
+- The application should be implemented in React & Node JS
 - I plan to deploy it on fly.io
 - The application language should be Romana.
 - Let me know If I miss something.

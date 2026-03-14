@@ -1,14 +1,12 @@
-export const dynamic = 'force-dynamic'
+'use server'
 
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getIronSession } from 'iron-session'
-import { cookies } from 'next/headers'
 import { sessionOptions, type SessionData } from '@/lib/auth'
 
-export default async function Home() {
+export async function logoutAction() {
   const session = await getIronSession<SessionData>(await cookies(), sessionOptions)
-  if (session.isLoggedIn) {
-    redirect('/admin/products')
-  }
+  session.destroy()
   redirect('/login')
 }

@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { unsealData } from 'iron-session'
 import type { SessionData } from '@/lib/auth'
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const cookieValue = request.cookies.get('stock_session')?.value
 
   if (!cookieValue) {

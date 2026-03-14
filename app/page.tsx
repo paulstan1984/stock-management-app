@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { redirect } from 'next/navigation'
 import { getIronSession } from 'iron-session'
 import { cookies } from 'next/headers'

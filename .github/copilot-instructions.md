@@ -21,7 +21,7 @@ The UI language is **Romanian**. All user-facing text (labels, buttons, messages
 ### Product
 | Field       | Type   | Notes                        |
 |-------------|--------|------------------------------|
-| code        | string | Barcode / unique identifier  |
+| code        | string | Unique identifier            |
 | name        | string | Product name                 |
 | measureUnit | string | e.g., kg, L, buc             |
 | stock       | number | Current quantity in stock    |
@@ -51,10 +51,10 @@ The UI language is **Romanian**. All user-facing text (labels, buttons, messages
 - Products list is sorted **alphabetically** by name.
 - Live **search/filter**: as the user types, products are filtered instantly (no submit needed). Example: typing "pa" shows "patrunjel", "pastarnac".
 
-### Buy / Scan Screen (mobile-friendly)
+### Buy Screen (mobile-friendly)
 - Accessible via a dedicated URL (e.g., `/scan` or `/cumpara`).
-- Allows scanning a **product barcode** with the device camera or entering the code manually.
-- After identifying the product, the user enters the **quantity purchased**; the product stock is **decreased** by that amount.
+- Allows selecting a product from a searchable list.
+- After selecting the product, the user enters the **quantity purchased**; the product stock is **decreased** by that amount.
 - Displays all products as individual **buttons** (one per product), ordered alphabetically.
 - Search functionality to filter products by name before selecting.
 - Protected — only accessible to logged-in admins.
@@ -89,7 +89,7 @@ app/
       [id]/page.tsx
       new/page.tsx
   scan/
-    page.tsx          # Barcode scan / buy screen
+    page.tsx          # Buy screen
 components/           # Shared UI components
 lib/
   auth.ts             # Auth helpers
@@ -101,7 +101,7 @@ middleware.ts         # Route protection
 
 ### Styling
 - Use **Tailwind CSS utility classes** exclusively; avoid inline styles and CSS modules unless absolutely necessary.
-- Design for **mobile-first**; the scan/buy screen must work well on phones.
+- Design for **mobile-first**; the buy screen must work well on phones.
 - Use dark mode support where it doesn't add complexity.
 
 ### Data & State
@@ -134,8 +134,6 @@ middleware.ts         # Route protection
 | Delete          | Șterge                 |
 | Edit            | Editează               |
 | Add             | Adaugă                 |
-| Scan barcode    | Scanează cod de bare   |
-| Enter code      | Introduceți codul      |
 | Buy / Purchase  | Cumpărare              |
 | Logout          | Deconectare            |
 

@@ -5,8 +5,7 @@
   - A products can be assigned to a category
   - The admin can manage categories.
   - A category has Name.
-- The application has a URL which when is accessed from a phone allows the user to scan a product barcode (Code) or enter it manually, and then enter the quantity that is buyed. The stock will be decreased.
-- On this buy screen there should be an option to select the product and then enter the quantity if the product barcode cannot be scaned. 
+- The application has a URL which when is accessed from a phone allows the user to select a product, then enter the purchased quantity. The stock will be decreased.
 - Each product should have a button. 
 - The products are alphabetically ordered. 
 - There should be a search functionality, when the user types characters the products are automatically filtered. Ex: pa -> patrunjel, pastarnac

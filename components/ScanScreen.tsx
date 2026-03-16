@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
-import { BarcodeScanner } from '@/components/BarcodeScanner'
+import { useState } from 'react'
 import { QuantityModal } from '@/components/QuantityModal'
 import { decreaseStockAction } from '@/app/scan/actions'
 
@@ -24,24 +23,10 @@ export function ScanScreen({ products: initialProducts }: Props) {
   const [products, setProducts] = useState(initialProducts)
   const [selected, setSelected] = useState<Product | null>(null)
   const [search, setSearch] = useState('')
-  const [showScanner, setShowScanner] = useState(false)
   const [flash, setFlash] = useState<SuccessMessage | null>(null)
 
   const filtered = products.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase()),
-  )
-
-  const handleScan = useCallback(
-    (code: string) => {
-      const product = products.find((p) => p.code === code)
-      setShowScanner(false)
-      if (product) {
-        setSelected(product)
-      } else {
-        setFlash({ type: 'error', text: `Cod „${code}" negăsit.` })
-      }
-    },
-    [products],
   )
 
   const handleConfirm = async (quantity: number) => {
@@ -87,20 +72,6 @@ export function ScanScreen({ products: initialProducts }: Props) {
             >
               ✕
             </button>
-          </div>
-        )}
-
-        {/* Scanner toggle */}
-        <button
-          onClick={() => setShowScanner((v) => !v)}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition-colors"
-        >
-          {showScanner ? '✕ Închide scanner' : '📷 Scanează cod de bare'}
-        </button>
-
-        {showScanner && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden p-4">
-            <BarcodeScanner onScan={handleScan} />
           </div>
         )}
 

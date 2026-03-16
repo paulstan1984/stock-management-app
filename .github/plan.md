@@ -5,13 +5,12 @@
 - DB: PostgreSQL via fly.io managed Postgres (`fly postgres create`)
 - ORM: Prisma (schema + migrations)
 - Auth: iron-session (cookie-based, single admin via env vars)
-- Barcode scanning: html5-qrcode (browser camera)
 - UI language: Romanian
 
 ---
 
 ## Phase 1 — Foundation (dependencies + DB schema)
-1. Install: `prisma`, `@prisma/client`, `iron-session`, `html5-qrcode`
+1. Install: `prisma`, `@prisma/client`, `iron-session`
 2. Start local DB: `docker compose up -d` (postgres:16 on port 5432, db=`stock_db`, user=`stock_user`, pwd=`stock_pwd`; pgAdmin at http://localhost:8080)
 3. Create `.env.local`: `DATABASE_URL=postgresql://stock_user:stock_pwd@localhost:5432/stock_db`, `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `SESSION_SECRET`
 4. Create `config/auth.ts`: reads credentials from env vars only
@@ -40,12 +39,11 @@
 21. Create `app/admin/products/[id]/page.tsx`: form to edit/delete product
 22. Create `app/admin/products/actions.ts`: server actions + `revalidatePath`
 
-## Phase 5 — Scan / Buy Screen
-23. Create `components/BarcodeScanner.tsx` (`'use client'`): html5-qrcode wrapper, fires `onScan(code)` callback
-24. Create `components/ProductGrid.tsx` (`'use client'`): alphabetical product buttons + live search filter
-25. Create `components/QuantityModal.tsx` (`'use client'`): modal to enter *Cantitate*, calls server action
-26. Create `app/scan/actions.ts`: `decreaseStock` server action (validates `stock >= quantity`)
-27. Create `app/scan/page.tsx` (`'use client'`): composes BarcodeScanner + ProductGrid + QuantityModal
+## Phase 5 — Buy Screen
+23. Create `components/ProductGrid.tsx` (`'use client'`): alphabetical product buttons + live search filter
+24. Create `components/QuantityModal.tsx` (`'use client'`): modal to enter *Cantitate*, calls server action
+25. Create `app/scan/actions.ts`: `decreaseStock` server action (validates `stock >= quantity`)
+26. Create `app/scan/page.tsx` (`'use client'`): composes ProductGrid + QuantityModal
 
 ## Phase 6 — Shared Components + Polish *(parallel with any phase)*
 28. Create `components/ui/`: `Button`, `Input`, `FormField` reusable components
@@ -75,8 +73,7 @@
 | `middleware.ts` | Route protection |
 | `app/(auth)/login/` | Login page + server action |
 | `app/admin/**` | Admin layout, categories CRUD, products CRUD |
-| `app/scan/` | Buy/scan screen + server action |
-| `components/BarcodeScanner.tsx` | html5-qrcode camera scanner |
+| `app/scan/` | Buy screen + server action |
 | `components/ProductGrid.tsx` | Product buttons + live search |
 | `components/QuantityModal.tsx` | Quantity entry modal |
 | `.env.local` | Local secrets (gitignored) |
@@ -90,10 +87,9 @@
 3. `npm run dev` — login at `/login`; wrong credentials rejected
 4. CRUD: create/edit/delete category → appears in product form dropdown
 5. CRUD: create/edit/delete product → correct alphabetical order, live search works
-6. Scan page on mobile: camera opens, scan barcode → quantity modal → stock decreases
-7. Manual product selection: tap product button → quantity modal → stock decreases
-8. Unauthenticated access to `/admin/*` or `/scan` → redirected to `/login`
-9. `fly deploy` — migrations run via `release_command`, app live at fly.io URL
+6. Buy page on mobile: tap product button → quantity modal → stock decreases
+7. Unauthenticated access to `/admin/*` or `/scan` → redirected to `/login`
+8. `fly deploy` — migrations run via `release_command`, app live at fly.io URL
 
 ---
 

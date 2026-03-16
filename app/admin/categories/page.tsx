@@ -2,9 +2,11 @@ export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
 import { getCategories } from '@/lib/data'
+import { requireAdminSession } from '@/lib/auth'
 
 export default async function CategoriesPage() {
-  const categories = await getCategories()
+  const session = await requireAdminSession()
+  const categories = await getCategories(session.storeId)
 
   return (
     <div>

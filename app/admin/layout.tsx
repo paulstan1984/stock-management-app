@@ -1,11 +1,14 @@
 import Link from 'next/link'
 import { logoutAction } from './actions'
+import { requireAdminSession } from '@/lib/auth'
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const session = await requireAdminSession()
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <nav className="bg-blue-700 text-white px-4 py-3 flex items-center justify-between shadow">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
           <span className="font-bold text-lg tracking-tight">Gestiune Stoc</span>
           <Link href="/admin/products" className="text-sm hover:underline">
             Produse
@@ -16,6 +19,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/scan" className="text-sm hover:underline">
             Cumpărare
           </Link>
+          {session.role === 'SUPER_ADMIN' && (
+            <Link href="/admin/administrators" className="text-sm hover:underline">
+              Administratori
+            </Link>
+          )}
         </div>
         <form action={logoutAction}>
           <button

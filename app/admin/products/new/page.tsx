@@ -2,14 +2,27 @@ export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
 import { getCategories } from '@/lib/data'
+import { requireAdminSession } from '@/lib/auth'
 import { createProductAction } from '../actions'
 
-export default async function NewProductPage() {
-  const categories = await getCategories()
+interface Props {
+  searchParams: Promise<{ error?: string }>
+}
+
+export default async function NewProductPage({ searchParams }: Props) {
+  const session = await requireAdminSession()
+  const categories = await getCategories(session.storeId)
+  const { error } = await searchParams
 
   return (
     <div className="max-w-lg">
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Produs nou</h1>
+
+      {error === 'cod-duplicat' && (
+        <p className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          Există deja un produs cu acest cod în magazinul tău.
+        </p>
+      )}
 
       <form
         action={createProductAction}
@@ -17,7 +30,7 @@ export default async function NewProductPage() {
       >
         <div>
           <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-1">
-            Cod (barcode)
+            Cod
           </label>
           <input
             id="code"

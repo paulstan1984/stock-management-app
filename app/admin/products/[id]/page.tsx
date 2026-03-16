@@ -1,21 +1,34 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getProductById, getCategories } from '@/lib/data'
+import { requireAdminSession } from '@/lib/auth'
 import { updateProductAction, deleteProductAction } from '../actions'
 import { DeleteButton } from '@/components/DeleteButton'
 
 interface Props {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ error?: string }>
 }
 
-export default async function EditProductPage({ params }: Props) {
+export default async function EditProductPage({ params, searchParams }: Props) {
+  const session = await requireAdminSession()
   const { id } = await params
-  const [product, categories] = await Promise.all([getProductById(id), getCategories()])
+  const { error } = await searchParams
+  const [product, categories] = await Promise.all([
+    getProductById(session.storeId, id),
+    getCategories(session.storeId),
+  ])
   if (!product) notFound()
 
   return (
     <div className="max-w-lg">
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Editează produs</h1>
+
+      {error === 'cod-duplicat' && (
+        <p className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+          Există deja un alt produs cu acest cod în magazinul tău.
+        </p>
+      )}
 
       <form
         action={updateProductAction}
@@ -25,7 +38,7 @@ export default async function EditProductPage({ params }: Props) {
 
         <div>
           <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-1">
-            Cod (barcode)
+            Cod
           </label>
           <input
             id="code"

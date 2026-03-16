@@ -29,12 +29,12 @@ export default async function ProductsPage({ searchParams }: Props) {
           >
             + Adaugă
           </Link>
-          <a
+          <Link
             href="/admin/products/export"
             className="border border-gray-300 bg-white hover:bg-gray-50 text-gray-800 text-sm font-medium px-4 py-2 rounded-lg transition-colors"
           >
             Export CSV
-          </a>
+          </Link>
         </div>
       </div>
 

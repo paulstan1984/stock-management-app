@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 import { QuantityModal } from '@/components/QuantityModal'
 import { decreaseStockAction } from '@/app/scan/actions'
@@ -50,9 +51,9 @@ export function ScanScreen({ products: initialProducts }: Props) {
       {/* Header */}
       <header className="bg-blue-700 text-white px-4 py-3 flex items-center justify-between shadow">
         <h1 className="text-xl font-bold">Cumpărare</h1>
-        <a href="/admin/products" className="text-sm hover:underline opacity-80">
+        <Link href="/admin/products" className="text-sm hover:underline opacity-80">
           Admin
-        </a>
+        </Link>
       </header>
 
       <div className="flex-1 p-4 max-w-2xl w-full mx-auto space-y-4">

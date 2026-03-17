@@ -1,17 +1,23 @@
-- Make a plan for creating a nea stock management application
-- Here are the main app features
-  - The administrator is able to login and to manage the stock for each products
-  - A product has the following main fields: Code, Name, MeasureUnit, Stock
-  - A products can be assigned to a category
-  - The admin can manage categories.
-  - A category has Name.
-- The application has a URL which when is accessed from a phone allows the user to select a product, then enter the purchased quantity. The stock will be decreased.
-- Each product should have a button. 
-- The products are alphabetically ordered. 
-- There should be a search functionality, when the user types characters the products are automatically filtered. Ex: pa -> patrunjel, pastarnac
-- These route is accessible only for the logged admins.
-- the admin user and password are defined in a config file.
-- The application should be implemented in React & Node JS
-- I plan to deploy it on fly.io
-- The application language should be Romana.
-- Let me know If I miss something.
+- Build a stock management application with Next.js, React, Node.js, Prisma, and PostgreSQL.
+- The application manages data per store, not globally.
+- There are two administrator roles:
+  - `SUPER_ADMIN` can only manage other administrators.
+  - `STORE_ADMIN` can manage only that store's products, categories, and purchase flow.
+- Each store administrator belongs to a store and has the following main fields: `storeId`, `storeName`, `user`, `password`, `role`.
+- A product has the following main fields: `code`, `name`, `measureUnit`, `stock`.
+- Products belong to a store and can optionally be assigned to a category.
+- Product codes are unique per store.
+- A category has `name` and belongs to a store.
+- A store admin can manage only that store's categories and products.
+- The application has a dedicated mobile-friendly purchase URL where a store admin selects a product, enters the purchased quantity, and the product stock is decreased.
+- Each product should be displayed as its own button on the purchase screen.
+- Products are alphabetically ordered.
+- There should be a live search functionality so typing filters products immediately. Example: `pa` -> `patrunjel`, `pastarnac`.
+- All `/admin/*` and `/scan` routes are accessible only to logged-in administrators.
+- Route protection is enforced by session-based auth and `proxy.ts`.
+- Login uses administrator accounts stored in the database.
+- Session configuration is stored in environment variables, with optional super-admin bootstrap config in `config/auth.ts`.
+- When a store administrator is deleted, that store's products and categories are deleted as well.
+- The application language should be Romanian.
+- The application is intended to be deployed on fly.io.
+- Remaining documentation should always reflect the current role-based and store-scoped behavior.

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getCategoryById } from '@/lib/data'
+import { requireStoreAdmin } from '@/lib/auth'
 import { updateCategoryAction, deleteCategoryAction } from '../actions'
 import { DeleteButton } from '@/components/DeleteButton'
 
@@ -9,8 +10,9 @@ interface Props {
 }
 
 export default async function EditCategoryPage({ params }: Props) {
+  const session = await requireStoreAdmin()
   const { id } = await params
-  const category = await getCategoryById(id)
+  const category = await getCategoryById(session.storeId, id)
   if (!category) notFound()
 
   return (

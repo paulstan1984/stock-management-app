@@ -1,24 +1,31 @@
 'use server'
 
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { getIronSession } from 'iron-session'
-import { sessionOptions, type SessionData } from '@/lib/auth'
-import { authConfig } from '@/config/auth'
+import { getSession, md5Hash } from '@/lib/auth'
+import { db } from '@/lib/db'
 
 export async function loginAction(formData: FormData) {
-  const username = (formData.get('username') as string).trim()
-  const password = formData.get('password') as string
+  const username = ((formData.get('username') as string) ?? '').trim()
+  const password = ((formData.get('password') as string) ?? '').trim()
 
-  if (username !== authConfig.username || password !== authConfig.password) {
+  if (!username || !password) {
     redirect('/login?error=1')
   }
 
-  const cookieStore = await cookies()
-  const session = await getIronSession<SessionData>(cookieStore, sessionOptions)
+  const admin = await db.storeAdministrator.findUnique({
+    where: { user: username },
+  })
+
+  if (!admin || admin.password !== md5Hash(password)) {
+    redirect('/login?error=1')
+  }
+
+  const session = await getSession()
   session.isLoggedIn = true
   session.username = username
+  session.role = admin.role
+  session.storeId = admin.storeId
   await session.save()
 
-  redirect('/admin/products')
+  redirect(admin.role === 'SUPER_ADMIN' ? '/admin/administrators' : '/admin/products')
 }

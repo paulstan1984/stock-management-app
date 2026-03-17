@@ -8,7 +8,7 @@ import { sessionOptions, type SessionData } from '@/lib/auth'
 export default async function Home() {
   const session = await getIronSession<SessionData>(await cookies(), sessionOptions)
   if (session.isLoggedIn) {
-    redirect('/admin/products')
+    redirect(session.role === 'SUPER_ADMIN' ? '/admin/administrators' : '/admin/products')
   }
   redirect('/login')
 }

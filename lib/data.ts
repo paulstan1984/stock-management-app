@@ -44,7 +44,12 @@ export async function updateAdministrator(
 }
 
 export async function deleteAdministrator(storeId: number) {
-  return db.storeAdministrator.delete({ where: { storeId } })
+  return db.$transaction(async (tx) => {
+    await tx.product.deleteMany({ where: { storeId } })
+    await tx.category.deleteMany({ where: { storeId } })
+
+    return tx.storeAdministrator.delete({ where: { storeId } })
+  })
 }
 
 // ─── Categories ──────────────────────────────────────────────────────────────

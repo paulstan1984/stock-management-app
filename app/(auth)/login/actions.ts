@@ -27,5 +27,5 @@ export async function loginAction(formData: FormData) {
   session.storeId = admin.storeId
   await session.save()
 
-  redirect('/admin/products')
+  redirect(admin.role === 'SUPER_ADMIN' ? '/admin/administrators' : '/admin/products')
 }

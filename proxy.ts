@@ -22,6 +22,14 @@ export async function proxy(request: NextRequest) {
     if (pathname.startsWith('/admin/administrators') && session.role !== 'SUPER_ADMIN') {
       return NextResponse.redirect(new URL('/admin/products', request.url))
     }
+
+    const storeAdminOnlyPath = pathname.startsWith('/admin/products')
+      || pathname.startsWith('/admin/categories')
+      || pathname.startsWith('/scan')
+
+    if (storeAdminOnlyPath && session.role === 'SUPER_ADMIN') {
+      return NextResponse.redirect(new URL('/admin/administrators', request.url))
+    }
   } catch {
     return NextResponse.redirect(new URL('/login', request.url))
   }

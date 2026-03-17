@@ -46,6 +46,14 @@ export async function requireAdminSession() {
   }
 }
 
+export async function requireStoreAdmin() {
+  const session = await requireAdminSession()
+  if (session.role !== 'STORE_ADMIN') {
+    redirect('/admin/administrators')
+  }
+  return session
+}
+
 export async function requireSuperAdmin() {
   const session = await requireAdminSession()
   if (session.role !== 'SUPER_ADMIN') {

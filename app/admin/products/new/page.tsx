@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import Link from 'next/link'
 import { getCategories } from '@/lib/data'
-import { requireAdminSession } from '@/lib/auth'
+import { requireStoreAdmin } from '@/lib/auth'
 import { createProductAction } from '../actions'
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default async function NewProductPage({ searchParams }: Props) {
-  const session = await requireAdminSession()
+  const session = await requireStoreAdmin()
   const categories = await getCategories(session.storeId)
   const { error } = await searchParams
 

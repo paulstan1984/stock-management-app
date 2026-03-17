@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getProductById, getCategories } from '@/lib/data'
-import { requireAdminSession } from '@/lib/auth'
+import { requireStoreAdmin } from '@/lib/auth'
 import { updateProductAction, deleteProductAction } from '../actions'
 import { DeleteButton } from '@/components/DeleteButton'
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default async function EditProductPage({ params, searchParams }: Props) {
-  const session = await requireAdminSession()
+  const session = await requireStoreAdmin()
   const { id } = await params
   const { error } = await searchParams
   const [product, categories] = await Promise.all([

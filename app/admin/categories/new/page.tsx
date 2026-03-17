@@ -1,7 +1,10 @@
 import Link from 'next/link'
+import { requireStoreAdmin } from '@/lib/auth'
 import { createCategoryAction } from '../actions'
 
-export default function NewCategoryPage() {
+export default async function NewCategoryPage() {
+  await requireStoreAdmin()
+
   return (
     <div className="max-w-md">
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Categorie nouă</h1>

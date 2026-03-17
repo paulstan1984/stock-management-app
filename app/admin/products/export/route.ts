@@ -12,7 +12,7 @@ function csvEscape(value: string) {
 export async function GET() {
   const session = await getSession()
 
-  if (!session.isLoggedIn || !session.storeId) {
+  if (!session.isLoggedIn || !session.storeId || session.role !== 'STORE_ADMIN') {
     return new NextResponse('Neautorizat', { status: 401 })
   }
 

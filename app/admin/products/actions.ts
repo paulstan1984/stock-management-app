@@ -12,7 +12,7 @@ import {
   getProductById,
   updateProduct,
 } from '@/lib/data'
-import { requireAdminSession } from '@/lib/auth'
+import { requireStoreAdmin } from '@/lib/auth'
 
 function getRequiredString(formData: FormData, key: string) {
   return ((formData.get(key) as string) ?? '').trim()
@@ -50,7 +50,7 @@ function parseCsvLine(line: string) {
 }
 
 export async function createProductAction(formData: FormData) {
-  const session = await requireAdminSession()
+  const session = await requireStoreAdmin()
   const code = getRequiredString(formData, 'code')
   const name = getRequiredString(formData, 'name')
   const measureUnit = getRequiredString(formData, 'measureUnit')
@@ -80,7 +80,7 @@ export async function createProductAction(formData: FormData) {
 }
 
 export async function updateProductAction(formData: FormData) {
-  const session = await requireAdminSession()
+  const session = await requireStoreAdmin()
   const id = formData.get('id') as string
   const code = getRequiredString(formData, 'code')
   const name = getRequiredString(formData, 'name')
@@ -122,7 +122,7 @@ export async function updateProductAction(formData: FormData) {
 }
 
 export async function deleteProductAction(formData: FormData) {
-  const session = await requireAdminSession()
+  const session = await requireStoreAdmin()
   const id = formData.get('id') as string
   if (!id) {
     redirect('/admin/products?error=produs-negasit')
@@ -135,7 +135,7 @@ export async function deleteProductAction(formData: FormData) {
 }
 
 export async function importProductsAction(formData: FormData) {
-  const session = await requireAdminSession()
+  const session = await requireStoreAdmin()
   const file = formData.get('file') as File | null
 
   if (!file) {

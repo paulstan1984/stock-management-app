@@ -3,12 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-}
-
-enum AdminRole {
-  SUPER_ADMIN
-  STORE_ADMIN
+  provider = "sqlite"
 }
 
 model StoreAdministrator {
@@ -16,7 +11,7 @@ model StoreAdministrator {
   storeName  String
   user       String     @unique
   password   String
-  role       AdminRole  @default(STORE_ADMIN)
+  role       String     @default("STORE_ADMIN")
   categories Category[]
   products   Product[]
   createdAt  DateTime   @default(now())

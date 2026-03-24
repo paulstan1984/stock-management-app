@@ -9,6 +9,7 @@ primary_region = "ams"
 [env]
   PORT = "3000"
   NODE_ENV = "production"
+  DATABASE_URL = "file:/data/stock.db"
 
 [http_service]
   internal_port = 3000

@@ -29,6 +29,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               Administratori
             </Link>
           )}
+          {isSuperAdmin && (
+            <a
+              href="/api/admin/download-db"
+              className="text-sm border border-white/40 rounded-md px-3 py-1 hover:bg-white/10 transition-colors"
+            >
+              Descarcă DB
+            </a>
+          )}
         </div>
         <form action={logoutAction}>
           <button

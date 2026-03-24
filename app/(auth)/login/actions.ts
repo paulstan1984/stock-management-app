@@ -23,7 +23,7 @@ export async function loginAction(formData: FormData) {
   const session = await getSession()
   session.isLoggedIn = true
   session.username = username
-  session.role = admin.role
+  session.role = admin.role as import('@/lib/auth').AdminRole
   session.storeId = admin.storeId
   await session.save()
 

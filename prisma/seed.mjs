@@ -1,8 +1,14 @@
 import { createHash } from 'node:crypto'
 import { PrismaClient } from '@prisma/client'
-import { PrismaPg } from '@prisma/adapter-pg'
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
+function getDatabasePath() {
+  const url = process.env.DATABASE_URL
+  if (!url) throw new Error('DATABASE_URL environment variable is not set')
+  return url.startsWith('file:') ? url.slice(5) : url
+}
+
+const adapter = new PrismaBetterSqlite3({ url: getDatabasePath() })
 const prisma = new PrismaClient({ adapter })
 
 function md5(text) {

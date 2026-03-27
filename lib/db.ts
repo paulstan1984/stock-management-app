@@ -9,6 +9,16 @@ function createPrismaClient() {
   return new PrismaClient({ adapter })
 }
 
-export const db: PrismaClient = globalForPrisma.prisma ?? createPrismaClient()
+function getOrCreateClient(): PrismaClient {
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = createPrismaClient()
+  }
+  return globalForPrisma.prisma
+}
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db
+export const db: PrismaClient = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    const client = getOrCreateClient()
+    return Reflect.get(client, prop, client)
+  },
+})
